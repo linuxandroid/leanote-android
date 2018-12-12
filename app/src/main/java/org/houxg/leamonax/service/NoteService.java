@@ -163,7 +163,7 @@ public class NoteService {
     private static String convertToLocalImageLinkForRichText(long noteLocalId, String noteContent) {
         return StringUtils.replace(noteContent,
                 "<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>",
-                String.format(Locale.US, "\\ssrc\\s*=\\s*\"%s/api/file/getImage\\?fileId=.*?\"", Account.getCurrent().getHost()),
+                String.format(Locale.US, "\\ssrc\\s*=\\s*\"%s/api/file/getImage\\?fileId=.*?\"", "http://localhost:9000"),
                 new StringUtils.Replacer() {
                     @Override
                     public String replaceWith(String original, Object... extraData) {
@@ -188,8 +188,8 @@ public class NoteService {
 
     private static String convertToLocalImageLinkForMD(long noteLocalId, String noteContent) {
         return StringUtils.replace(noteContent,
-                String.format(Locale.US, "!\\[.*?\\]\\(%s/api/file/getImage\\?fileId=.*?\\)", Account.getCurrent().getHost()),
-                String.format(Locale.US, "\\(%s/api/file/getImage\\?fileId=.*?\\)", Account.getCurrent().getHost()),
+                String.format(Locale.US, "!\\[.*?\\]\\(%s/api/file/getImage\\?fileId=.*?\\)", "http://localhost:9000"),
+                String.format(Locale.US, "\\(%s/api/file/getImage\\?fileId=.*?\\)", "http://localhost:9000"),
                 new StringUtils.Replacer() {
                     @Override
                     public String replaceWith(String original, Object... extraData) {
@@ -262,7 +262,7 @@ public class NoteService {
                         if (TextUtils.isEmpty(serverId)) {
                             serverId = localId;
                         }
-                        return String.format(Locale.US, "(%s)", NoteFileService.getServerImageUri(serverId).toString());
+                        return String.format(Locale.US, "(%s)", "/api/file/getImage?fileId="+serverId);
                     }
                 });
     }
@@ -280,7 +280,7 @@ public class NoteService {
                         if (TextUtils.isEmpty(serverId)) {
                             serverId = localId;
                         }
-                        return String.format(Locale.US, " src=\"%s\"", NoteFileService.getServerImageUri(serverId).toString());
+                        return String.format(Locale.US, " src=\"%s\"", "/api/file/getImage?fileId="+serverId);
                     }
                 });
     }
